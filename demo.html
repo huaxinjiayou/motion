@@ -1,0 +1,52 @@
+<html>
+	<head>
+		<style type="text/css">
+			#hhx{width:100px; height:30px; background: #666;}
+			#star, #stop{cursor: pointer;}
+		</style>
+		<script src="motion.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			var $ = function(id){
+				return document.getElementById(id);
+			}
+			window.onload = function(){
+				var hhx = $('hhx'),
+					star = $('star'),
+					stop = $('stop'),
+					isStop = true;
+
+				var a = new Motion('elastic.easeout', 3000);
+				a.onTweening = function(){
+					hhx.style.width = this.equation(100, 1000) + 'px';
+					hhx.style.height = this.equation(30, 300) + 'px';
+				}
+				a.onComplete = function(){
+					console.timeEnd('hhx');
+					isStop = true;
+				}
+
+				star.onclick = function(){
+					if(!isStop) return;
+
+					isStop = false;
+					a.start();
+					console.time('hhx');
+				}
+
+				stop.onclick = function(){
+					if(isStop) return;
+
+					isStop = true;
+					a.stop();
+					console.timeEnd('hhx');
+				}
+
+			}
+		</script>
+	</head>
+	<body>
+		<span id="star">star</span>
+		<span id="stop">stop</span>
+		<div id="hhx"></div>
+	</body>
+</html>
